@@ -3,9 +3,7 @@ package com.waheed.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import graphql.annotations.GraphQLField;
-import graphql.annotations.GraphQLName;
 
-@GraphQLName("Team")
 @JsonIgnoreProperties(value = { "identifier", "penalization_points" })
 public class Team {
     @JsonProperty("team_identifier")
