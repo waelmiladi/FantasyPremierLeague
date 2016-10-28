@@ -21,7 +21,7 @@ public class Root {
     }
 
     @POST
-    public Object getTeam(String query) throws Exception {
+    public Object query(String query) throws Exception {
         return graphQL.execute(query, client).getData();
     }
 }

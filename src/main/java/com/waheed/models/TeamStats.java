@@ -1,9 +1,8 @@
 package com.waheed.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import graphql.annotations.GraphQLName;
+import graphql.annotations.GraphQLField;
 
-@GraphQLName("TeamStats")
 public class TeamStats {
     @JsonProperty
     private int wins;
@@ -21,11 +20,11 @@ public class TeamStats {
     private int goalsScored;
 
     @JsonProperty("conceded")
-    private String goalsConceded;
+    private int goalsConceded;
 
 
     @JsonProperty("goal_difference")
-    private String goalDifference;
+    private int goalDifference;
 
     @JsonProperty("last_5")
     private String form;
@@ -33,34 +32,42 @@ public class TeamStats {
     @JsonProperty("matches_played")
     private int matchesPlayed;
 
+    @GraphQLField
     public int getWins() {
         return wins;
     }
 
+    @GraphQLField
     public int getDraws() {
         return draws;
     }
 
+    @GraphQLField
     public int getLosses() {
         return losses;
     }
 
+    @GraphQLField
     public int getPoints() {
         return points;
     }
 
+    @GraphQLField
     public int getGoalsScored() {
         return goalsScored;
     }
 
-    public String getGoalsConceded() {
+    @GraphQLField
+    public int getGoalsConceded() {
         return goalsConceded;
     }
 
-    public String getGoalDifference() {
+    @GraphQLField
+    public int getGoalDifference() {
         return goalDifference;
     }
 
+    @GraphQLField
     public String getForm() {
         return form;
     }
