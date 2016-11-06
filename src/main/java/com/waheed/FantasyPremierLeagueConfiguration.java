@@ -1,20 +1,23 @@
 package com.waheed;
 
-import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.*;
-import javax.validation.constraints.*;
+import com.google.common.collect.ImmutableMap;
+import io.dropwizard.Configuration;
+
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 public class FantasyPremierLeagueConfiguration extends Configuration {
-    @NotEmpty
-    private String mashapeKey;
+    private Map<String, String> guiceConfig = ImmutableMap.of();
 
-    public String getMashapeKey() {
-        return mashapeKey;
+    @JsonProperty("guiceConfig")
+    public void setGuiceConfig(Map<String,String> cfg) {
+        this.guiceConfig = ImmutableMap.copyOf(cfg);
     }
 
-    @JsonProperty
-    public void setMashapeKey(String mashapeKey) {
-        this.mashapeKey = mashapeKey;
+    @NotNull
+    @JsonProperty("guiceConfig")
+    public Map<String, String> getGuiceConfig() {
+        return guiceConfig;
     }
 }

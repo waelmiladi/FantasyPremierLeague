@@ -1,6 +1,7 @@
 package com.waheed.client;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,15 +13,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class HttpClient {
-
+    private String mashapeKey;
     private CloseableHttpClient httpClient;
 
     @Inject
-    public HttpClient() {
+    public HttpClient(@Named("mashapeKey") String mashapeKey ) {
+        this.mashapeKey = mashapeKey;
         this.httpClient = HttpClients.createDefault();
     }
 
-    public String get(String url, String mashapeKey) throws IOException {
+    public String get(String url) throws IOException {
         HttpGet request = createGetRequest(url);
         request.setHeader("X-Mashape-Key", mashapeKey);
         CloseableHttpResponse response = httpClient.execute(request);

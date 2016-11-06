@@ -1,37 +1,37 @@
 package com.waheed.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import graphql.annotations.GraphQLField;
+import org.bson.Document;
 
-@JsonIgnoreProperties(value = { "identifier", "penalization_points" })
+import java.util.ArrayList;
+import java.util.List;
+
 public class Team {
-    @JsonProperty("team_identifier")
-    private String identifier;
-
-    @JsonProperty
-    private int position;
-
-    @JsonProperty("team")
+    private String id;
     private String name;
+    private List<Position> positions;
+    private List<TeamStats> overallStats;
+    private List<TeamStats> homeStats;
+    private List<TeamStats> awayStats;
 
-    @JsonProperty("overall")
-    private TeamStats overallStats;
-
-    @JsonProperty("home")
-    private TeamStats homeStats;
-
-    @JsonProperty("away")
-    private TeamStats awayStats;
-
-    @GraphQLField
-    public String getIdentifier() {
-        return identifier;
+    public Team(
+            String id,
+            String name,
+            List<Position> positions,
+            List<TeamStats> overallStats,
+            List<TeamStats> homeStats,
+            List<TeamStats> awayStats) {
+        this.id = id;
+        this.name = name;
+        this.positions = positions;
+        this.overallStats = overallStats;
+        this.homeStats = homeStats;
+        this.awayStats = awayStats;
     }
 
     @GraphQLField
-    public int getPosition() {
-        return position;
+    public String getId() {
+        return id;
     }
 
     @GraphQLField
@@ -40,17 +40,59 @@ public class Team {
     }
 
     @GraphQLField
-    public TeamStats getOverallStats() {
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    @GraphQLField
+    public List<TeamStats> getOverallStats() {
         return overallStats;
     }
 
     @GraphQLField
-    public TeamStats getHomeStats() {
+    public List<TeamStats> getHomeStats() {
         return homeStats;
     }
 
     @GraphQLField
-    public TeamStats getAwayStats() {
+    public List<TeamStats> getAwayStats() {
         return awayStats;
+    }
+
+    public static Team fromDocument(Document document) {
+        List<Document> positionDocuments = (List<Document>) document.get("positions");
+        List<Document> overallStatsDocuments = (List<Document>) document.get("overallStats");
+        List<Document> homeStatsDocuments = (List<Document>) document.get("homeStats");
+        List<Document> awayStatsDocuments = (List<Document>) document.get("awayStats");
+
+        List<Position> positions = new ArrayList<>();
+        List<TeamStats> overallStats = new ArrayList<>();
+        List<TeamStats> homeStats = new ArrayList<>();
+        List<TeamStats> awayStats = new ArrayList<>();
+
+        positionDocuments.forEach(position -> {
+            positions.add(Position.fromDocument(position));
+        });
+
+        overallStatsDocuments.forEach(overallStat -> {
+            overallStats.add(TeamStats.fromDocument(overallStat));
+        });
+
+        homeStatsDocuments.forEach(homeStat -> {
+            homeStats.add(TeamStats.fromDocument(homeStat));
+        });
+
+        awayStatsDocuments.forEach(awayStat -> {
+            awayStats.add(TeamStats.fromDocument(awayStat));
+        });
+
+        return new Team(
+                document.get("_id").toString(),
+                document.getString("name"),
+                positions,
+                overallStats,
+                homeStats,
+                awayStats
+        );
     }
 }

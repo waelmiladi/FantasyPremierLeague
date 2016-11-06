@@ -3,6 +3,7 @@ package com.waheed;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import com.waheed.module.FantasyPremierLeagueModule;
 import io.dropwizard.Application;
+import io.dropwizard.configuration.ConfigurationSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -26,7 +27,8 @@ public class FantasyPremierLeagueApplication extends Application<FantasyPremierL
 
     @Override
     public void initialize(final Bootstrap<FantasyPremierLeagueConfiguration> bootstrap) {
-        GuiceBundle<FantasyPremierLeagueConfiguration> guiceBundle = GuiceBundle.<FantasyPremierLeagueConfiguration>newBuilder()
+        ConfigurationSourceProvider factory = bootstrap.getConfigurationSourceProvider();
+        guiceBundle = GuiceBundle.<FantasyPremierLeagueConfiguration>newBuilder()
                 .addModule(new FantasyPremierLeagueModule())
                 .enableAutoConfig(getClass().getPackage().getName())
                 .setConfigClass(FantasyPremierLeagueConfiguration.class)
