@@ -1,0 +1,4 @@
+cluster.name: "premier-league-es-cluster"
+http.port: 9201
+transport.tcp.port: 9301
+network.host: 0.0.0.0
